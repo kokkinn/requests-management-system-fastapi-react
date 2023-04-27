@@ -1,19 +1,22 @@
-import smtplib
-import ssl
-from os import getenv
-from dotenv import load_dotenv
+from sqlalchemy.orm import Session
 
-load_dotenv()
-
-SSL_PORT = 465
-ACCOUNT = getenv('EMAIL_ACCOUNT')
-PASSWORD = getenv('EMAIL_APP_PASSWORD')
-TEST_RECIPIENT = 'kokkin.george@gmail.com',
+from src.emails.send_email import send_email
+from src.schemas import EmailRequest as ER_Schema
+from src.crud import create_request
 
 
-def send_mail(name: str, surname: str, email: str, question: str = None):
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", SSL_PORT, context=context) as server:
-        server.login(ACCOUNT, PASSWORD)
-        msg_temp = f'Hi {name} {surname}. Regarding your {question}...'
-        server.sendmail(ACCOUNT, email, msg_temp)
+def create_message(email_request: ER_Schema) -> str:
+    return f"""\
+Subject: Regarding kokkinn.com ...
+
+Hi {email_request.name} {email_request.surname},\n
+My name is George Washington,\n
+I am a poopa kaka.\n
+Please be free to ask any questions!"""
+
+
+def handle_request(db_session: Session, email_request: ER_Schema):
+    if not email_request.question:
+        send_email(create_message(email_request), email_request.email)
+    else:
+        create_request(db_session, email_request)
