@@ -6,3 +6,4 @@ venv
 test_main.http
 commands
 password.txt
+testReq.http

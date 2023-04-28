@@ -1,15 +1,11 @@
-from sqlalchemy.orm import sessionmaker
-
-from src.database import engine
-from models import User
+from src.database import get_db
+from src.models import User
 from src.security import get_password_hash
 
 EMAIL = input('Enter an email: ')
 PWD = get_password_hash(input('Enter a password: '))
 
-
-session_local = sessionmaker(bind=engine, autoflush=False, autocommit=False)
-db_session = session_local()
+db_session = next(get_db())
 new_admin = User(email=EMAIL, password=PWD)
 db_session.add(new_admin)
 db_session.commit()
