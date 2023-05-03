@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
-from src.emails.send_email import send_email
-from src.schemas import EmailRequest as ER_Schema
-from src.crud import create_request
+from ..schemas import EmailRequest as ER_Schema
+from ..crud import create_request
+from .send_email import send_email
 
 
 def create_message(email_request: ER_Schema) -> str:

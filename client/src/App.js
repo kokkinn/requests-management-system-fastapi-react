@@ -1,14 +1,22 @@
 import "./App.css";
-import { LoginForm } from "./components/loginForm";
-import { AuthTestButton } from "./components/authTestButton";
-import {LogoutButton} from "./components/logoutButton";
+import { LoginForm } from "./components/auth/loginForm";
+import { AuthTestButton } from "./components/auth/authTestButton";
+import { LogoutButton } from "./components/auth/logoutButton";
+import { AuthContextProvider } from "./contexts/authContext";
+import { LoggedArea } from "./components/auth/loggedArea";
+import { NavBar } from "./components/base/navbar";
 function App() {
   return (
-    <div className="App">
-      <LoginForm />
-      <AuthTestButton />
-        <LogoutButton/>
-    </div>
+    <AuthContextProvider>
+      <div className="App">
+        <NavBar />
+        <LoginForm />
+        <AuthTestButton />
+        <LogoutButton />
+        <br />
+        <LoggedArea />
+      </div>
+    </AuthContextProvider>
   );
 }
 

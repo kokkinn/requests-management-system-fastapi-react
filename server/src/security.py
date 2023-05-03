@@ -7,9 +7,9 @@ from jose import jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from src.crud import get_user
-from src.database import get_db
-from src.models import User
+from .crud import get_user
+from .database import get_db
+from .models import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 

@@ -1,17 +1,14 @@
-from typing import Annotated, Literal, List
-
-from fastapi import FastAPI, Depends, status, HTTPException, Body
+from fastapi import FastAPI, Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from starlette.middleware.cors import CORSMiddleware
-from src import crud
-from src.crud import read_requests
-from src.database import engine, get_db
-from src.emails.email_utils import handle_request
-from src import schemas, models
-from src.emails.send_email import send_email
-from src.schemas import DoResponseBody, Oath2LoginForm
-from src.security import authenticate_user, get_access_token_from_email, get_current_user
+from . import models
+from . import schemas
+from .crud import read_requests, update_request
+from .emails.email_utils import handle_request
+from .emails.send_email import send_email
+from .security import authenticate_user, get_access_token_from_email, get_current_user
+from .database import engine, get_db
 
 app = FastAPI()
 models.base_class_sqlalchemy.metadata.create_all(engine)
@@ -39,7 +36,7 @@ def send_email_request(email_request: schemas.EmailRequest, db_session: Session 
 
 
 @app.post("/token")
-def get_token(form_data: Oath2LoginForm, db_session: Session = Depends(get_db)):
+def get_token(form_data: schemas.Oath2LoginForm, db_session: Session = Depends(get_db)):
     db_user = authenticate_user(form_data.email, form_data.password, db_session)
     if not db_user:
         raise HTTPException(detail='Incorrect credentials', status_code=status.HTTP_400_BAD_REQUEST,
@@ -60,15 +57,17 @@ def get_requests(resolved: bool = None,
 
 
 @app.post("/resolve_request")
-def resolve_request(resolve_body: DoResponseBody, db_session: Session = Depends(get_db),
+def resolve_request(resolve_body: schemas.DoResponseBody, db_session: Session = Depends(get_db),
                     # user=Depends(get_current_user)
                     ):
-    db_request = crud.update_request(resolve_body.request_id, True, db_session)
+    db_request = update_request(resolve_body.request_id, True, db_session)
     send_email(resolve_body.message, db_request.email)
     return {'details': 'ok'}
+
+
 #
 
-# @app.get("/unresolve_request")
-# def unresolve_request(request_id: int, request_resolved: bool,
-#                       user=Depends(get_current_user), db_session: Session = Depends(get_db)):
-#     return crud_ur(db_session, request_id, request_resolved)
+@app.get("/unresolve_request")
+def unresolve_request(request_id: int, request_resolved: bool,
+                      user=Depends(get_current_user), db_session: Session = Depends(get_db)):
+    return crud_ur(db_session, request_id, request_resolved)

@@ -1,11 +1,8 @@
-from typing import Literal
-
 from sqlalchemy.orm import Session
 
-from src.emails.send_email import send_email
-from src.schemas import EmailRequest as ER_Schema
-from src.models import EmailRequest as ER_Model
-from src.models import User
+from .schemas import EmailRequest as ER_Schema
+from .models import EmailRequest as ER_Model
+from .models import User
 
 
 def create_request(db_session: Session, request_schema: ER_Schema):

@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../contexts/authContext";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { token, setToken, userIsLogged, setUserIsLogged } =
+    useContext(AuthContext);
   return (
     <form
       id="form-login"
@@ -22,6 +25,8 @@ export function LoginForm() {
           if (response.ok) {
             response.json().then((json) => {
               localStorage.setItem("Authorization", json.access_token);
+              setToken(json.access_token);
+              setUserIsLogged(true);
               console.log(`Logged in with token ${json.access_token}`);
             });
           } else {

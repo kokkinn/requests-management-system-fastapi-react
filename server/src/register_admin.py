@@ -1,6 +1,6 @@
-from src.database import get_db
-from src.models import User
-from src.security import get_password_hash
+from .database import get_db
+from .models import User
+from .security import get_password_hash
 
 EMAIL = input('Enter an email: ')
 PWD = get_password_hash(input('Enter a password: '))
