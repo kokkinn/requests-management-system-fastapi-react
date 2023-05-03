@@ -1,3 +1,5 @@
+from typing import Literal
+
 from sqlalchemy.orm import Session
 
 from src.emails.send_email import send_email
@@ -7,21 +9,26 @@ from src.models import User
 
 
 def create_request(db_session: Session, request_schema: ER_Schema):
-    db_request = ER_Model(**request_schema.dict())
+    db_request = ER_Model(**request_schema.dict(), resolved=False)
     db_session.add(db_request)
     db_session.commit()
     return db_request
 
 
-def read_request(db_session: Session, request_id: int):
-    pass
+def get_request(request_id: int, db_session: Session):
+    db_user = db_session.query(User).filter(User.email == email).first()
+    return db_user
 
 
-def update_request(db_session: Session, request_answer: str, request_id: int):
+def read_requests(db_session: Session, resolved: bool = None):
+    return db_session.query(ER_Model).filter(ER_Model.resolved == resolved).all()
+
+
+def update_request(request_id: int, resolved: bool, db_session: Session):
     db_request = db_session.query(ER_Model).filter(ER_Model.id == request_id).first()
-    send_email(request_answer, db_request.email)
-    db_request.resolved = True
+    db_request.resolved = resolved
     db_session.commit()
+    return db_request
 
 
 def get_user(email: str, db_session: Session):

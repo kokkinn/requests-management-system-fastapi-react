@@ -11,7 +11,7 @@ Subject: Regarding kokkinn.com ...
 
 Hi {email_request.name} {email_request.surname},\n
 My name is George Washington,\n
-I am a poopa kaka.\n
+I am a cool guy.\n
 Please be free to ask any questions!"""
 
 

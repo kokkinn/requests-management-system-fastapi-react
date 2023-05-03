@@ -9,7 +9,6 @@ from sqlalchemy.orm import Session
 
 from src.crud import get_user
 from src.database import get_db
-# from src.main import oauth2_scheme
 from src.models import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -37,7 +36,7 @@ def authenticate_user(email: str, password: str, db_session) -> Union[bool, User
     return db_user
 
 
-ACCESS_TOKEN_EXPIRE_MINUTES = 10
+ACCESS_TOKEN_EXPIRE_MINUTES = 1000
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
@@ -61,11 +60,10 @@ def get_access_token_from_email(email: str):
 
 
 def get_current_user(token=Depends(oauth2_scheme), db_session: Session = Depends(get_db)):
-    print(token)
     try:
         decoded = jwt.decode(token, SECRET_KEY, ALGORITHM)
     except Exception:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Invalid or expired token')
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Invalid or expired token')
 
     db_user = db_session.query(User).filter(User.email == decoded['sub']).first()
     if db_user:

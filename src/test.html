@@ -1,20 +1,29 @@
 <html>
-<head>
+  <head>
     <script src="test.js" defer></script>
-</head>
-<!--<form method="post">-->
-<!--    <input placeholder="Name" name="name">-->
-<!--    <input placeholder="Surname" name="surname">-->
-<!--    <input placeholder="Email" name="email">-->
-<!--    <input placeholder="Question" name="question">-->
-<!--    <input type="submit" value="Submit">-->
-<!--</form>-->
-<form>
-    <input placeholder="your email" name="email">
-    <input placeholder="your password" name="password">
-    <input type="submit" value="Login">
-</form>
+  </head>
+  <form method="post" id="form-create-request">
+    <input required placeholder="Name" name="name" />
+    <input placeholder="Surname" name="surname" />
+    <input required placeholder="Email" name="email" />
+    <input required placeholder="Question" name="question" />
+    <input type="submit" value="Submit" />
+  </form>
 
-<input type="submit" id="test-auth" value="test-auth">
-<input type="submit" id="logout" value="Logout">
+
+
+
+  <form id="get-requests">
+    <select name="select">
+      <option value="true">Resolved</option>
+      <option value="false">Unresolved</option>
+    </select>
+    <input type="submit" value="Get requests" />
+  </form>
+
+<form id="form-resolve-request">
+  <input type="number" name="id">
+  <input type="text" name="message">
+  <input type="submit" value="resolve">
+</form>
 </html>

@@ -1,13 +1,15 @@
-from typing import Annotated
+from typing import Annotated, Literal, List
 
-from fastapi import FastAPI, Depends, status, HTTPException
+from fastapi import FastAPI, Depends, status, HTTPException, Body
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from starlette.middleware.cors import CORSMiddleware
-
+from src import crud
+from src.crud import read_requests
 from src.database import engine, get_db
 from src.emails.email_utils import handle_request
 from src import schemas, models
+from src.emails.send_email import send_email
 from src.schemas import DoResponseBody, Oath2LoginForm
 from src.security import authenticate_user, get_access_token_from_email, get_current_user
 
@@ -27,14 +29,8 @@ app.add_middleware(
 
 @app.post("/send-email-request", status_code=status.HTTP_201_CREATED)
 def send_email_request(email_request: schemas.EmailRequest, db_session: Session = Depends(get_db)):
-    print(email_request)
     handle_request(db_session, email_request)
-    return {"info": "I've tried"}
-
-
-@app.post("/send-email-response", status_code=status.HTTP_200_OK)
-def send_email_response(do_response_body: DoResponseBody, token: Annotated[str, Depends(oauth2_scheme)]):
-    return {"info": "I've tried"}
+    return {"info": "request was submitted"}
 
 
 # @app.get("/users/me")
@@ -52,6 +48,27 @@ def get_token(form_data: Oath2LoginForm, db_session: Session = Depends(get_db)):
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@app.get("/auth-test")
+@app.get("/auth-test", status_code=status.HTTP_200_OK)
 def auth_test(user=Depends(get_current_user)):
     return user
+
+
+@app.get("/get-requests", response_model=list[schemas.EmailRequestShow])
+def get_requests(resolved: bool = None,
+                 db_session: Session = Depends(get_db), user=Depends(get_current_user)):  # TODO file with constants
+    return read_requests(db_session, resolved)
+
+
+@app.post("/resolve_request")
+def resolve_request(resolve_body: DoResponseBody, db_session: Session = Depends(get_db),
+                    # user=Depends(get_current_user)
+                    ):
+    db_request = crud.update_request(resolve_body.request_id, True, db_session)
+    send_email(resolve_body.message, db_request.email)
+    return {'details': 'ok'}
+#
+
+# @app.get("/unresolve_request")
+# def unresolve_request(request_id: int, request_resolved: bool,
+#                       user=Depends(get_current_user), db_session: Session = Depends(get_db)):
+#     return crud_ur(db_session, request_id, request_resolved)
