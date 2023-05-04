@@ -4,12 +4,12 @@ export const AuthContext = createContext({});
 
 export const AuthContextProvider = (props) => {
   const [token, setToken] = useState(localStorage.getItem("Authorization"));
-  const [userIsLogged, setUserIsLogged] = useState(false);
+  const [userIsLogged, setUserIsLogged] = useState(null);
   useEffect(() => {
     if (!token) {
       setUserIsLogged(false);
     } else {
-      // if token in storage, check if is valid
+      // if any (valid or not) token in storage, check if is valid
       const fetchUser = async () => {
         const requestOptions = {
           method: "GET",
@@ -26,15 +26,16 @@ export const AuthContextProvider = (props) => {
 
         if (!response.ok) {
           setUserIsLogged(false);
-          setToken("invalid token");
+          setToken(null);
         } else {
-          setToken(token);
           setUserIsLogged(true);
+          setToken(token);
         }
       };
+
       fetchUser().then();
     }
-  }, []);
+  }, [token]);
 
   return (
     <AuthContext.Provider

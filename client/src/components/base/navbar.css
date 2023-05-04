@@ -1,0 +1,8 @@
+nav {
+    background-color: azure;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 1rem;
+}

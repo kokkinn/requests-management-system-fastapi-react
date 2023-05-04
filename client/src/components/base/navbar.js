@@ -1,12 +1,19 @@
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/authContext";
+import { LogoutButton } from "../auth/logoutButton";
+import { LoginButton } from "../auth/loginButton";
+import "./navbar.css";
 
 export function NavBar() {
-  const { token, setToken, userIsLogged, setUserIsLogged } =
-    useContext(AuthContext);
-  return (
-    <nav>
-      <p>You are currently {userIsLogged ? "logged in" : "logged out"}</p>
-    </nav>
-  );
+  const { userIsLogged } = useContext(AuthContext);
+  let status;
+  switch (userIsLogged) {
+    case true:
+      status = <LogoutButton />;
+      break;
+    case false:
+      status = <LoginButton />;
+      break;
+  }
+  return <nav>{status}</nav>;
 }

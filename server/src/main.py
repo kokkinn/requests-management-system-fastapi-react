@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi import FastAPI, Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -33,26 +35,30 @@ def send_email_request(email_request: schemas.EmailRequest, db_session: Session 
 # @app.get("/users/me")
 # async def read_users_me(current_user: Annotated[User, Depends(get_current_user)]):
 #     return current_user
+async def delay():
+    print('I sleep')
+    await asyncio.sleep(2)
+    return 1
 
 
 @app.post("/token")
-def get_token(form_data: schemas.Oath2LoginForm, db_session: Session = Depends(get_db)):
+async def get_token(form_data: schemas.Oath2LoginForm, delayq=Depends(delay), db_session: Session = Depends(get_db)):
     db_user = authenticate_user(form_data.email, form_data.password, db_session)
     if not db_user:
-        raise HTTPException(detail='Incorrect credentials', status_code=status.HTTP_400_BAD_REQUEST,
+        raise HTTPException(detail='Incorrect credentials', status_code=status.HTTP_401_UNAUTHORIZED,
                             headers={"WWW-Authenticate": "Bearer"}, )
     access_token = get_access_token_from_email(db_user.email)
     return {"access_token": access_token, "token_type": "bearer"}
 
 
 @app.get("/auth-test", status_code=status.HTTP_200_OK)
-def auth_test(user=Depends(get_current_user)):
+async def auth_test(delayq=Depends(delay), user=Depends(get_current_user)):
     return user
 
 
 @app.get("/get-requests", response_model=list[schemas.EmailRequestShow])
 def get_requests(resolved: bool = None,
-                 db_session: Session = Depends(get_db), user=Depends(get_current_user)):  # TODO file with constants
+                 db_session: Session = Depends(get_db), user=Depends(get_current_user), delayy=Depends(delay)):  # TODO file with constants
     return read_requests(db_session, resolved)
 
 

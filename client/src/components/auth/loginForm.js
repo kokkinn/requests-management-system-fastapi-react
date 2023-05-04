@@ -1,16 +1,23 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/authContext";
+import { useNavigate } from "react-router-dom";
+import "./auth.css";
+import { Loader } from "../loader";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { token, setToken, userIsLogged, setUserIsLogged } =
-    useContext(AuthContext);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { setToken, setUserIsLogged } = useContext(AuthContext);
+  const navigate = useNavigate();
   return (
     <form
       id="form-login"
       onSubmit={(ev) => {
         ev.preventDefault();
+        setErrorMsg('')
+        setLoading(true);
         fetch("http://127.0.0.1:8000/token", {
           method: "POST",
           body: JSON.stringify({
@@ -22,14 +29,17 @@ export function LoginForm() {
             "Content-type": "application/json",
           },
         }).then((response) => {
+          setLoading(false);
           if (response.ok) {
             response.json().then((json) => {
               localStorage.setItem("Authorization", json.access_token);
               setToken(json.access_token);
               setUserIsLogged(true);
               console.log(`Logged in with token ${json.access_token}`);
+              navigate("/");
             });
           } else {
+            setErrorMsg("Invalid credentials");
             console.log("Invalid credentials");
           }
         });
@@ -54,10 +64,8 @@ export function LoginForm() {
         name="password"
       />
       <input type="submit" value="Login" />
+      {loading ? <Loader /> : null}
+      {errorMsg}
     </form>
   );
 }
-
-// document.querySelector("#form-login").addEventListener("submit", function (ev) {
-//   ev.preventDefault();
-// });

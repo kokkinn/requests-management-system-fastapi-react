@@ -31,22 +31,6 @@ document
   .addEventListener("submit", function (ev) {
     ev.preventDefault();
 
-    const authToken = localStorage.getItem("Authorization")
-      ? `Bearer ${localStorage.getItem("Authorization")}`
-      : null;
-    fetch(`http://127.0.0.1:8000/get-requests?resolved=${this.select.value}`, {
-      method: "GET",
-      headers: {
-        Authorization: authToken,
-      },
-    }).then((response) => {
-      response.json().then((json) => {
-        for (const i in json) {
-          console.log(this.select.value, 'requests')
-          console.log(json[i]);
-        }
-      });
-    });
   });
 
 document

@@ -1,23 +1,29 @@
 import "./App.css";
-import { LoginForm } from "./components/auth/loginForm";
-import { AuthTestButton } from "./components/auth/authTestButton";
-import { LogoutButton } from "./components/auth/logoutButton";
-import { AuthContextProvider } from "./contexts/authContext";
-import { LoggedArea } from "./components/auth/loggedArea";
+import { AuthContext } from "./contexts/authContext";
 import { NavBar } from "./components/base/navbar";
+import { AppRouter } from "./router";
+import { useContext } from "react";
+import { Loader } from "./components/loader";
 function App() {
-  return (
-    <AuthContextProvider>
-      <div className="App">
-        <NavBar />
-        <LoginForm />
-        <AuthTestButton />
-        <LogoutButton />
-        <br />
-        <LoggedArea />
-      </div>
-    </AuthContextProvider>
-  );
+  const { userIsLogged } = useContext(AuthContext);
+  switch (userIsLogged) {
+    case true:
+      return (
+        <>
+          <NavBar />
+          <AppRouter />
+        </>
+      );
+    case false:
+      return (
+        <>
+          <NavBar />
+          <AppRouter />
+        </>
+      );
+    default:
+      return <Loader />;
+  }
 }
 
 export default App;

@@ -6,8 +6,8 @@ export function LogoutButton() {
   return (
     <button
       onClick={() => {
-        setToken("null token");
-        setUserIsLogged(false);
+        setToken(null);
+        // setUserIsLogged(false);
         localStorage.removeItem("Authorization");
         console.log("User have been logged out");
       }}

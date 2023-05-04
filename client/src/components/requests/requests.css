@@ -1,0 +1,25 @@
+#request-resolve-modal::backdrop {
+  background: black;
+  opacity: 0.5;
+}
+
+#request-resolve-modal {
+  background-color: azure;
+  border-radius: 20px;
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  left: 50%;
+  bottom: 50%;
+  transform: translateX(-50%);
+}
+
+
+#rrm-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+#requests-area {
+  background-color: gainsboro;
+}
