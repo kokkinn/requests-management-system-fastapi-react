@@ -15,5 +15,10 @@ export function NavBar() {
       status = <LoginButton />;
       break;
   }
-  return <nav>{status}</nav>;
+  return (
+    <nav>
+      <h1>Email management system</h1>
+      {status}
+    </nav>
+  );
 }

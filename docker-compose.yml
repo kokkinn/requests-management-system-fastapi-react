@@ -1,14 +1,32 @@
 version: "3.9"
 services:
-  db:
-    image: postgres
-    environment:
-      - POSTGRES_USER=bigbox9
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_DB=emais_kokkinn_db
+  web:
+    build:
+      context: ./
+      dockerfile: nginx/Dockerfile
+    container_name: nc1
     ports:
-      - "5432:5432"
+      - "80:80"
+    depends_on:
+      - wsgi
+
+  wsgi:
+    build:
+      context: ./
+      dockerfile: server/Dockerfile
+    container_name: fast_api
+    depends_on:
+      - database
+
+  database:
+    image: postgres
+    env_file:
+      - .env
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - db_volume:/var/lib/postgresql/data
+    container_name: postgres_container
+
+
 volumes:
-  pgdata:
+  db_volume:
+    name: pg_volume_1

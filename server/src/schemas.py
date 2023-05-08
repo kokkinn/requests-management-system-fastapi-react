@@ -15,6 +15,7 @@ class EmailRequest(BaseModel):
 
 class EmailRequestShow(EmailRequest):
     id: str
+    resolved: bool
 
 
 class DoResponseBody(BaseModel):

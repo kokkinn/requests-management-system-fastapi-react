@@ -18,7 +18,7 @@ export function LoginForm() {
         ev.preventDefault();
         setErrorMsg('')
         setLoading(true);
-        fetch("http://127.0.0.1:8000/token", {
+        fetch("http://0.0.0.0:80/api/token", {
           method: "POST",
           body: JSON.stringify({
             email: email,

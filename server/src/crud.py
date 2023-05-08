@@ -17,8 +17,8 @@ def get_request(request_id: int, db_session: Session):
     return db_user
 
 
-def read_requests(db_session: Session, resolved: bool = None):
-    return db_session.query(ER_Model).filter(ER_Model.resolved == resolved).all()
+def read_requests(db_session: Session, resolved: bool = None, limit: int = None):
+    return db_session.query(ER_Model).filter(ER_Model.resolved == resolved).limit(limit).all()
 
 
 def update_request(request_id: int, resolved: bool, db_session: Session):

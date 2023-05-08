@@ -1,4 +1,5 @@
 import asyncio
+from typing import Optional
 
 from fastapi import FastAPI, Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
@@ -21,24 +22,20 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "OPTIONS"],
     allow_headers=["*"],
 )
 
 
-@app.post("/send-email-request", status_code=status.HTTP_201_CREATED)
-def send_email_request(email_request: schemas.EmailRequest, db_session: Session = Depends(get_db)):
+async def delay():
+    await asyncio.sleep(1)
+    return 1  # TODO remove for deployment
+
+
+@app.post("/submit-request", status_code=status.HTTP_201_CREATED)
+def submit_request(email_request: schemas.EmailRequest, db_session: Session = Depends(get_db)):
     handle_request(db_session, email_request)
     return {"info": "request was submitted"}
-
-
-# @app.get("/users/me")
-# async def read_users_me(current_user: Annotated[User, Depends(get_current_user)]):
-#     return current_user
-async def delay():
-    print('I sleep')
-    await asyncio.sleep(2)
-    return 1
 
 
 @app.post("/token")
@@ -57,23 +54,18 @@ async def auth_test(delayq=Depends(delay), user=Depends(get_current_user)):
 
 
 @app.get("/get-requests", response_model=list[schemas.EmailRequestShow])
-def get_requests(resolved: bool = None,
-                 db_session: Session = Depends(get_db), user=Depends(get_current_user), delayy=Depends(delay)):  # TODO file with constants
-    return read_requests(db_session, resolved)
+def get_requests(resolved: bool = None, limit: Optional[int] = None,
+                 db_session: Session = Depends(get_db), user=Depends(get_current_user),
+                 delayy=Depends(delay)):  # TODO file with constants
+    return read_requests(db_session, resolved, limit)
 
 
 @app.post("/resolve_request")
 def resolve_request(resolve_body: schemas.DoResponseBody, db_session: Session = Depends(get_db),
-                    # user=Depends(get_current_user)
+                    user=Depends(get_current_user)
                     ):
     db_request = update_request(resolve_body.request_id, True, db_session)
     send_email(resolve_body.message, db_request.email)
     return {'details': 'ok'}
 
-
 #
-
-@app.get("/unresolve_request")
-def unresolve_request(request_id: int, request_resolved: bool,
-                      user=Depends(get_current_user), db_session: Session = Depends(get_db)):
-    return crud_ur(db_session, request_id, request_resolved)

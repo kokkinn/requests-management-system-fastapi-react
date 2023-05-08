@@ -4,25 +4,29 @@ export function Request({
   name,
   surname,
   question,
+  resolved,
   setDialogContent,
 }) {
+  console.log("Resolved", resolved);
   return (
-    <div key={id} className="request">
-      <ul key={id}>
+    <div className="request">
+      <ul>
         <li key={id}>{id}</li>
-      <li>{email}</li>
-      <li>{name}</li>
-      <li>{surname}</li>
-      <li>{question}</li>
+        <li>{email}</li>
+        <li>{name}</li>
+        <li>{surname}</li>
+        <li>{question}</li>
       </ul>
-      <button
-        onClick={() => {
-          document.querySelector("#request-resolve-modal").showModal();
-          setDialogContent({ id, question });
-        }}
-      >
-        Resolve
-      </button>
+      {!resolved ? (
+        <button
+          onClick={() => {
+            document.querySelector("#request-resolve-modal").showModal();
+            setDialogContent({ id, question });
+          }}
+        >
+          Resolve
+        </button>
+      ) : null}
     </div>
   );
 }

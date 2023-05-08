@@ -20,7 +20,7 @@ export const AuthContextProvider = (props) => {
         };
 
         const response = await fetch(
-          "http://127.0.0.1:8000/auth-test",
+          "http://0.0.0.0:80/api/auth-test",
           requestOptions
         );
 

@@ -7,3 +7,8 @@
   gap: 1rem;
   background-color: gainsboro;
 }
+
+#form-login input,
+button {
+  font-size: 1.5rem;
+}
