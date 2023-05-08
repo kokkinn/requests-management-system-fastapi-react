@@ -9,12 +9,12 @@ load_dotenv()
 SSL_PORT = 465
 ACCOUNT = getenv('EMAIL_ACCOUNT')
 PASSWORD = getenv('EMAIL_APP_PASSWORD')
-TEST_RECIPIENT = 'kokkin.george@gmail.com',
+SMTP_SERVER = getenv('SMTP_SERVER')
 
 
 def send_email(message: str, recipient_email: str):
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", SSL_PORT, context=context) as server:
+    with smtplib.SMTP_SSL(SMTP_SERVER, SSL_PORT, context=context) as server:
         server.login(ACCOUNT, PASSWORD)
         try:
             server.sendmail(ACCOUNT, recipient_email, message)

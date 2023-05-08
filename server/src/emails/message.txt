@@ -1,1 +1,1 @@
-Hi this is a text message
+Hello {phn} {phs}. This is a default message.

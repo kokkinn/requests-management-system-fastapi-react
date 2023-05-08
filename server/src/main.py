@@ -35,7 +35,8 @@ async def delay():
 @app.post("/submit-request", status_code=status.HTTP_201_CREATED)
 def submit_request(email_request: schemas.EmailRequest, db_session: Session = Depends(get_db)):
     handle_request(db_session, email_request)
-    return {"info": "request was submitted"}
+    return {"status": "ok",
+            "request": email_request}
 
 
 @app.post("/token")
@@ -48,19 +49,14 @@ async def get_token(form_data: schemas.Oath2LoginForm, delayq=Depends(delay), db
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@app.get("/auth-test", status_code=status.HTTP_200_OK)
-async def auth_test(delayq=Depends(delay), user=Depends(get_current_user)):
-    return user
-
-
-@app.get("/get-requests", response_model=list[schemas.EmailRequestShow])
+@app.get("/get-requests", response_model=dict[str, list[schemas.EmailRequestShow]])
 def get_requests(resolved: bool = None, limit: Optional[int] = None,
                  db_session: Session = Depends(get_db), user=Depends(get_current_user),
                  delayy=Depends(delay)):  # TODO file with constants
-    return read_requests(db_session, resolved, limit)
+    return {"data": read_requests(db_session, resolved, limit)}
 
 
-@app.post("/resolve_request")
+@app.post("/resolve-request")
 def resolve_request(resolve_body: schemas.DoResponseBody, db_session: Session = Depends(get_db),
                     user=Depends(get_current_user)
                     ):
@@ -68,4 +64,7 @@ def resolve_request(resolve_body: schemas.DoResponseBody, db_session: Session = 
     send_email(resolve_body.message, db_request.email)
     return {'details': 'ok'}
 
-#
+
+@app.get("/auth-test", status_code=status.HTTP_200_OK)
+def auth_test(user=Depends(get_current_user)):
+    return user

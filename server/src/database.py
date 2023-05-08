@@ -8,7 +8,14 @@ from os import getenv
 
 load_dotenv()
 
-DATABASE_URL: str = getenv('DATABASE_URL')
+load_dotenv('.env')
+load_dotenv('.envdb')
+
+print(getenv("POSTGRES_USER"))
+# DATABASE_URL = f'postgresql://{getenv("POSTGRES_USER")}:{getenv("POSTGRES_PASSWORD")}@192.168.0.57:5432/emails_db'
+
+
+DATABASE_URL = f'postgresql://{getenv("POSTGRES_USER")}:{getenv("POSTGRES_PASSWORD")}@database_container:5432/emails_db'
 
 
 def create_db_engine() -> sqlalchemy.engine.Engine:
