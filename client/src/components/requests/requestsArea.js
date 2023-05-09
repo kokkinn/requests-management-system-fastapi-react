@@ -31,8 +31,8 @@ export function RequestsArea() {
       } else {
         response.json().then((json) => {
           let req_temp = [];
-          for (const i in json) {
-            req_temp.push(json[i]);
+          for (const i in json.data) {
+            req_temp.push(json.data[i]);
           }
           setRequests(req_temp);
         });

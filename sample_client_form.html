@@ -1,0 +1,40 @@
+<html lang="en">
+  <form id="form-submit-request">
+    <input type="text" placeholder="name" name="name" />
+    <input type="text" placeholder="surname" name="surname" />
+    <input type="text" placeholder="question" name="question" />
+    <input type="text" placeholder="email" name="email" />
+    <input type="submit" />
+  </form>
+
+  <script>
+    document
+      .querySelector("#form-submit-request")
+      .addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        fetch("http://localhost:8000/submit-request", {
+          method: "POST",
+          body: JSON.stringify({
+            name: ev.target.name.value,
+            surname: ev.target.surname.value,
+            question: ev.target.question.value,
+            email: ev.target.email.value,
+          }),
+          headers: {
+            accept: "application/json",
+            "Content-type": "application/json",
+          },
+        }).then((response) => {
+          if (response.ok) {
+            response.json().then((json) => {
+              console.log(json);
+            });
+          } else {
+            response.json().then((json) => {
+              console.log(json);
+            });
+          }
+        });
+      });
+  </script>
+</html>

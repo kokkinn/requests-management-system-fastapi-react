@@ -17,7 +17,7 @@ export function ResolveDialog({ id, question, updateGridState, gridState }) {
         />
         <button
           onClick={() => {
-            fetch(`http://0.0.0.0:80/api/resolve_request`, {
+            fetch(`http://0.0.0.0:80/api/resolve-request`, {
               method: "POST",
               headers: {
                 accept: "application/json",

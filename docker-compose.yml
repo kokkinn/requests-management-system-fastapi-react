@@ -4,29 +4,39 @@ services:
     build:
       context: ./
       dockerfile: nginx/Dockerfile
-    container_name: nc1
+
     ports:
       - "80:80"
+    container_name: web_server_container
     depends_on:
       - wsgi
+
+
+
+  database:
+    build:
+      context: ./
+      dockerfile: database/Dockerfile
+    env_file:
+      - database/.env
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    ports:
+      - "5555:5432"
+    container_name: database_container
+
 
   wsgi:
     build:
       context: ./
       dockerfile: server/Dockerfile
-    container_name: fast_api
+    container_name: wsgi_container
     depends_on:
       - database
-
-  database:
-    image: postgres
-    env_file:
-      - .env
-    volumes:
-      - db_volume:/var/lib/postgresql/data
-    container_name: postgres_container
-
+    restart: on-failure
 
 volumes:
   db_volume:
     name: pg_volume_1
+#    external: true
+# TODO change name for production

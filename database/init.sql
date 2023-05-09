@@ -1,0 +1,1 @@
+CREATE DATABASE emails_db;
