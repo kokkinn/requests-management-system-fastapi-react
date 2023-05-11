@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import {SERVER_URL} from "../constants";
 
 export const AuthContext = createContext({});
 
@@ -20,7 +21,7 @@ export const AuthContextProvider = (props) => {
         };
 
         const response = await fetch(
-          "http://0.0.0.0:80/api/auth-test",
+          `${SERVER_URL}/auth-test`,
           requestOptions
         );
 

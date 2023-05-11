@@ -7,7 +7,8 @@ from sqlalchemy.orm import Session
 from starlette.middleware.cors import CORSMiddleware
 from . import models
 from . import schemas
-from .crud import read_requests, update_request
+from .crud import read_requests, update_request, get_request
+from src import crud
 from .emails.email_utils import handle_request
 from .emails.send_email import send_email
 from .security import authenticate_user, get_access_token_from_email, get_current_user
@@ -22,7 +23,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "PATCH", "OPTIONS"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "OPTIONS", 'DELETE'],
     allow_headers=["*"],
 )
 
@@ -50,9 +51,10 @@ async def get_token(form_data: schemas.Oath2LoginForm, delayq=Depends(delay), db
 
 
 @app.get("/get-requests", response_model=dict[str, list[schemas.EmailRequestShow]])
-def get_requests(resolved: bool = None, limit: Optional[int] = None,
+def get_requests(resolved: Optional[bool] = None, limit: Optional[int] = None,
                  db_session: Session = Depends(get_db), user=Depends(get_current_user),
                  delayy=Depends(delay)):  # TODO file with constants
+    print(f"\n{resolved}\n")
     return {"data": read_requests(db_session, resolved, limit)}
 
 
@@ -68,3 +70,14 @@ def resolve_request(resolve_body: schemas.DoResponseBody, db_session: Session = 
 @app.get("/auth-test", status_code=status.HTTP_200_OK)
 def auth_test(user=Depends(get_current_user)):
     return user
+
+
+@app.delete("/delete-request/{request_id}", status_code=status.HTTP_200_OK)
+def delete_request(request_id: int, db_session=Depends(get_db),
+                   # user=Depends(get_current_user)
+                   ):
+    db_request = get_request(request_id, db_session)
+    if not db_request:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Request with such id do not exist')
+    crud.delete_request(db_session, request_id)
+    return {'details': 'deleted', 'request_id': request_id}

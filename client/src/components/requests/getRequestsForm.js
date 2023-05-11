@@ -16,6 +16,7 @@ export function GetRequestsForm({
       >
         <option value="true">Resolved</option>
         <option value="false">Unresolved</option>
+        <option value="">All</option>
       </select>
       <input
         placeholder="Limit"

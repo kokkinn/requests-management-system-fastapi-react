@@ -38,6 +38,12 @@ Make sure the container stack is up. Type in the terminal `docker compose exec -
 directory to enter a WSGI docker container (FastApi). Type `python3 -m src.init_admin`. After supplying your
 data, you would be able to log in into the admin panel through http://localhost:80 with your email and password.
 
+### How to use
+
+The idea is to start the container stack on the machine which could be used as a server. You can include 'request 
+form' to any of your web-sites, so visitors would be able to interact with it. The sample form which talks to an API is
+stored into `rootdir/setup/sample_client_form.html` .
+
 ## Details
 
 A database and is stored inside the docker environment on the volume called `pg_data_1`

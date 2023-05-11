@@ -24,13 +24,9 @@
   flex-direction: column;
   gap: 2rem;
   padding: 2rem;
-  background-color: gainsboro;
+  background-color: var(--neutral);
 }
 
-@media (max-width: 672px) {
-  #requests-area{padding: 0.5rem}
-
-}
 #form-get-requests {
   display: flex;
   flex-direction: column;
@@ -38,30 +34,70 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background-color: wheat;
+  background-color: var(--primary-light);
 }
 
 #form-get-requests > * {
   border: none;
   outline: none;
+  background-color: var(--secondary-light);
+  padding: 0.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
   margin: 0;
-  padding: 0;
-  width: 15rem;
+  width: 18rem;
   font-size: 1.5rem;
+  box-sizing: border-box;
+  transition: background-color 0.3s;
+}
+#form-get-requests > *:hover {
+  background-color: #75a6b9;
 }
 #requests-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  /*grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));*/
+  /*grid-template-columns: auto 1fr auto;*/
   gap: 2rem;
-
 }
+@media (max-width: 672px) {
+  #requests-area {
+    padding: 0.5rem;
+  }
 
+  #requests-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .request {
-  overflow: scroll;
+  flex-grow: 1;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  background-color: azure;
-  border: black solid 1px;
+  background-color: var(--primary-light);
+  /*width: 100%;*/
+  /*border: black solid 1px;*/
   font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+
+.request:hover {
+  transform: scale(1.04);
+}
+
+.request button {
+  font-size: 1rem;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  height: 3rem;
+  transition: background-color 0.3s;
+}
+.request button:hover {
+  background-color: var(--secondary-light);
+}
+.request ul {
+  padding: 1rem;
+  list-style: none;
+  /*word-break: break-word;*/
 }

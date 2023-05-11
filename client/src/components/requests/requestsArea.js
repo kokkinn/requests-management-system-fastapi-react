@@ -5,8 +5,12 @@ import { GetRequestsForm } from "./getRequestsForm";
 import { RequestsGrid } from "./requestsGrid";
 import { AuthContext } from "../../contexts/authContext";
 import { Loader } from "../loader";
+import { SERVER_URL } from "../../constants";
+import { LoaderContext } from "../../contexts/loaderContext";
 
 export function RequestsArea() {
+  const { isLoading, setIsLoading, loaderVisible, loaderInVisible } =
+    useContext(LoaderContext);
   const [dialogContent, setDialogContent] = useState({});
   const [queryType, setQueryType] = useState("false"); //TODO set constants
   const [limitInp, setLimitInp] = useState("15");
@@ -16,8 +20,11 @@ export function RequestsArea() {
   const { token } = useContext(AuthContext);
   useEffect(() => {
     setLoading(true);
+    loaderVisible();
     fetch(
-      `http://0.0.0.0:80/api/get-requests?resolved=${queryType}&limit=${limitPar}`,
+      `${SERVER_URL}/get-requests?limit=${limitPar}${
+        queryType !== "" ? `&resolved=${queryType}` : ""
+      }`,
       {
         method: "GET",
         headers: {
@@ -25,7 +32,7 @@ export function RequestsArea() {
         },
       }
     ).then((response) => {
-      setLoading(false);
+      loaderInVisible();
       if (!response.ok) {
         console.log("Unauthorized");
       } else {
@@ -34,7 +41,7 @@ export function RequestsArea() {
           for (const i in json.data) {
             req_temp.push(json.data[i]);
           }
-          setRequests(req_temp);
+          setRequests(req_temp.reverse());
         });
       }
     });
@@ -49,11 +56,14 @@ export function RequestsArea() {
         limitPar={limitPar}
         setLimitPar={setLimitPar}
       />
-      {!loading ? (
-        <RequestsGrid requests={requests} setDialogContent={setDialogContent} />
-      ) : (
-        <Loader />
-      )}
+      {!loading || requests.length > 0 ? (
+        <RequestsGrid
+          requests={requests}
+          setDialogContent={setDialogContent}
+          gridState={requests}
+          updateGridState={setRequests}
+        />
+      ) : null}
       <ResolveDialog
         id={dialogContent.id}
         question={dialogContent.question}

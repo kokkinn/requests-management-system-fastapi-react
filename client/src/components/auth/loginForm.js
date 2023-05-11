@@ -3,12 +3,15 @@ import { AuthContext } from "../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import "./auth.css";
 import { Loader } from "../loader";
+import { SERVER_URL } from "../../constants";
+import { LoaderContext } from "../../contexts/loaderContext";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { isLoading, setIsLoading, loaderVisible, loaderInVisible } =
+    useContext(LoaderContext);
   const { setToken, setUserIsLogged } = useContext(AuthContext);
   const navigate = useNavigate();
   return (
@@ -16,9 +19,13 @@ export function LoginForm() {
       id="form-login"
       onSubmit={(ev) => {
         ev.preventDefault();
-        setErrorMsg('')
-        setLoading(true);
-        fetch("http://0.0.0.0:80/api/token", {
+        document
+          .querySelector(".auth-error-msg")
+          .classList.remove("auth-msg-visible");
+        // setErrorMsg('')
+        loaderVisible();
+        setIsLoading(true);
+        fetch(`${SERVER_URL}/token`, {
           method: "POST",
           body: JSON.stringify({
             email: email,
@@ -29,7 +36,8 @@ export function LoginForm() {
             "Content-type": "application/json",
           },
         }).then((response) => {
-          setLoading(false);
+          setIsLoading(false);
+          loaderInVisible();
           if (response.ok) {
             response.json().then((json) => {
               localStorage.setItem("Authorization", json.access_token);
@@ -40,6 +48,9 @@ export function LoginForm() {
             });
           } else {
             setErrorMsg("Invalid credentials");
+            document
+              .querySelector(".auth-error-msg")
+              .classList.add("auth-msg-visible");
             console.log("Invalid credentials");
           }
         });
@@ -63,9 +74,13 @@ export function LoginForm() {
         placeholder="your password"
         name="password"
       />
-      <input type="submit" value="Login" />
-      {loading ? <Loader /> : null}
-      {errorMsg}
+      <input
+        style={{ cursor: "pointer" }}
+        type="submit"
+        value="Login"
+        id="form-login-submit"
+      />
+      <div className="auth-error-msg">{errorMsg ? errorMsg : " "}</div>
     </form>
   );
 }

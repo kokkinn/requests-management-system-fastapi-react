@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/authContext";
 import {redirect} from "react-router-dom";
+import {SERVER_URL} from "../../constants";
 
 export function ResolveDialog({ id, question, updateGridState, gridState }) {
   const [answer, setAnswer] = useState("");
@@ -17,12 +18,12 @@ export function ResolveDialog({ id, question, updateGridState, gridState }) {
         />
         <button
           onClick={() => {
-            fetch(`http://0.0.0.0:80/api/resolve-request`, {
+            fetch(`${SERVER_URL}/resolve-request`, {
               method: "POST",
               headers: {
                 accept: "application/json",
                 "Content-type": "application/json",
-                Authorization: authToken,
+                  Authorization: `Bearer ${authToken}`,
               },
               body: JSON.stringify({
                 request_id: id,
@@ -31,7 +32,6 @@ export function ResolveDialog({ id, question, updateGridState, gridState }) {
             }).then((resp) =>
               resp.json().then((json) => {
                 document.querySelector("#request-resolve-modal").close();
-                console.log(json);
                   updateGridState(gridState.filter((request) => request.id !== id))
                 redirect('/')
               })

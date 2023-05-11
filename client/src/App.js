@@ -22,7 +22,7 @@ function App() {
         </>
       );
     default:
-      return <Loader />;
+      return null;
   }
 }
 

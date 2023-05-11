@@ -1,20 +1,31 @@
 import { Request } from "./request";
-export function RequestsGrid({ requests, setDialogContent }) {
+export function RequestsGrid({
+  requests,
+  setDialogContent,
+  updateGridState,
+  gridState,
+}) {
   return (
-    <div id="requests-grid">
-      {/* //TODO how to pass all props as object and ** unpack them as  in Python */}
-      {requests.map((request) => (
-        <Request
-          key={request.id}
-          id={request.id}
-          question={request.question}
-          email={request.email}
-          name={request.name}
-          surname={request.surname}
-          resolved={request.resolved}
-          setDialogContent={setDialogContent}
-        />
-      ))}
-    </div>
+    <>
+      {requests.length > 0 ? (
+        <div id="requests-grid">
+          {/* //TODO how to pass all props as object and ** unpack them as  in Python */}
+          {requests.map((request) => (
+            <Request
+              key={request.id}
+              id={request.id}
+              question={request.question}
+              email={request.email}
+              name={request.name}
+              surname={request.surname}
+              resolved={request.resolved}
+              setDialogContent={setDialogContent}
+              gridState={gridState}
+              updateGridState={updateGridState}
+            />
+          ))}
+        </div>
+      ) : null}
+    </>
   );
 }

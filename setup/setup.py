@@ -6,6 +6,7 @@ ENV_DB_PATH = path.dirname(__file__) + '/../database/'
 ENV_NAME = '.env2'
 
 
+# TODO try jinja2
 def env_filling():
     if ENV_NAME in listdir(ENV_DB_PATH) or ENV_NAME in listdir(ENV_SE_PATH):
         while True:

@@ -1,6 +1,7 @@
 import { RequestsArea } from "./requests/requestsArea";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
+import {Link} from "react-router-dom";
 
 export function MainPage() {
   return (
@@ -8,7 +9,7 @@ export function MainPage() {
       {useContext(AuthContext).userIsLogged ? (
         <RequestsArea />
       ) : (
-        <h3>Please login to view this page</h3>
+        <Link to='/login' className="please-login">Please login to view this page</Link>
       )}
     </>
   );

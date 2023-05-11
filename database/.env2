@@ -1,1 +1,2 @@
-random_db_username
+POSTGRES_USER=wef
+POSTGRES_PASSWORD=

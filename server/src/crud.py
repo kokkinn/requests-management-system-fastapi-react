@@ -13,12 +13,14 @@ def create_request(db_session: Session, request_schema: ER_Schema):
 
 
 def get_request(request_id: int, db_session: Session):
-    db_user = db_session.query(User).filter(User.email == email).first()
-    return db_user
+    db_request = db_session.query(ER_Model).filter(ER_Model.id == request_id).first()
+    return db_request
 
 
 def read_requests(db_session: Session, resolved: bool = None, limit: int = None):
-    return db_session.query(ER_Model).filter(ER_Model.resolved == resolved).limit(limit).all()
+    if resolved is not None:
+        return db_session.query(ER_Model).filter(ER_Model.resolved == resolved).limit(limit).all()
+    return db_session.query(ER_Model).limit(limit).all()
 
 
 def update_request(request_id: int, resolved: bool, db_session: Session):
@@ -34,4 +36,5 @@ def get_user(email: str, db_session: Session):
 
 
 def delete_request(db_session: Session, request_id: int):
-    pass
+    db_session.query(ER_Model).filter(ER_Model.id == request_id).delete()
+    db_session.commit()

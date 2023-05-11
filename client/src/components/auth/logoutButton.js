@@ -4,7 +4,7 @@ import { AuthContext } from "../../contexts/authContext";
 export function LogoutButton() {
   const { setToken, setUserIsLogged } = useContext(AuthContext);
   return (
-    <button
+    <a className="nav-button"
       onClick={() => {
         setToken(null);
         // setUserIsLogged(false);
@@ -15,6 +15,6 @@ export function LogoutButton() {
       id="test-auth"
     >
       Logout
-    </button>
+    </a>
   );
 }
