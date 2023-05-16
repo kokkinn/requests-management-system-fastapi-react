@@ -1,6 +1,6 @@
 import "./App.css";
 import { AuthContext } from "./contexts/authContext";
-import { NavBar } from "./components/base/navbar";
+import { NavBar } from "./components/base/navbar/navbar";
 import { AppRouter } from "./router";
 import { useContext } from "react";
 import { Loader } from "./components/loader";
@@ -12,6 +12,7 @@ function App() {
         <>
           <NavBar />
           <AppRouter />
+          <Loader/>
         </>
       );
     case false:
@@ -19,6 +20,7 @@ function App() {
         <>
           <NavBar />
           <AppRouter />
+          <Loader/>
         </>
       );
     default:

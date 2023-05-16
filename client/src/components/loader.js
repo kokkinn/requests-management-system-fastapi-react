@@ -1,3 +1,5 @@
+import {useEffect} from "react";
+
 export function Loader() {
-  return <span className="loader"></span>;
+  return <span id="loader"></span>;
 }

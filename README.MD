@@ -2,10 +2,9 @@
 
 ## About
 
-This is a tool which is used for managing 'requests' or questions from the users (after submitting a 'contact me' or
-'leave your wish' form).
-It consists of an API (FastAPI) to handle things and admin panel (React) which is a user interface.
-Everything is stored on a Postgres database.
+A tool for managing requests got from html. The request consists of name, surname, email 
+and optional question. The admin is able either to monitor sent requests and reply manually or set up an auto response 
+in case of question absence (email). The app consists of an API (FastAPI) and admin panel (React). Everything is stored on a Postgres database.
 
 ## Getting started
 
@@ -18,12 +17,15 @@ Some data needs to be provided to start the tool:
 - An email account and its password (app password for gmail) to send messages back
 - SMTP server of your email provider (f.e. `smtp.gmail.com` for gmail)
 - Postgres database user and its password (to access db directly if needed)
+- Default reply message
 
 A tool uses `.env` files to keep this information. You can either manually or automatically create them.
 For the first option you could
 execute `docker run -it --rm --name ps1 -v $(pwd)/.:/project -w /project python:3.10-alpine
-python setup/setup.py`, a Python script will be run. Or as a variant, you could create `.env` files in `rootdir/server`
+python setup/setup.py` within a project root directory, a Python script will be run. Or as a variant, you could create `.env` files in `rootdir/server`
 and `rootdir/database` directories using `.env.template` files in corresponding directories.
+For the default message, you customize a file `rootdir/server/src/message/default_message.txt` for your needs.
+{phn} and {phs} are placeholders for name and surname of the request owner, do not delete them.
 
 ### Docker
 
@@ -46,4 +48,4 @@ stored into `rootdir/setup/sample_client_form.html` .
 
 ## Details
 
-A database and is stored inside the docker environment on the volume called `pg_data_1`
+A database is stored inside the docker environment on the volume called `pg_data_1`

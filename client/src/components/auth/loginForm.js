@@ -2,9 +2,8 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import "./auth.css";
-import { Loader } from "../loader";
-import { SERVER_URL } from "../../constants";
 import { LoaderContext } from "../../contexts/loaderContext";
+import { SERVER_URL } from "../../constants.js";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -19,10 +18,11 @@ export function LoginForm() {
       id="form-login"
       onSubmit={(ev) => {
         ev.preventDefault();
+        setEmail(email.trim());
+        setPassword(password.trim());
         document
           .querySelector(".auth-error-msg")
           .classList.remove("auth-msg-visible");
-        // setErrorMsg('')
         loaderVisible();
         setIsLoading(true);
         fetch(`${SERVER_URL}/token`, {
@@ -37,6 +37,7 @@ export function LoginForm() {
           },
         }).then((response) => {
           setIsLoading(false);
+
           loaderInVisible();
           if (response.ok) {
             response.json().then((json) => {

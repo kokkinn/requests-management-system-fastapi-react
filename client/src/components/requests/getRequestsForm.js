@@ -1,12 +1,26 @@
+import { DATE_SORT_TYPES } from "../../constants";
+
 export function GetRequestsForm({
   queryType,
   setQueryType,
+  dateSort,
+  setDateSort,
   limitInp,
   setLimitPar,
   setLimitInp,
 }) {
   return (
     <form id="form-get-requests">
+      <select
+        name="select2"
+        value={dateSort}
+        onChange={(e) => {
+          setDateSort(e.target.value);
+        }}
+      >
+        <option value={DATE_SORT_TYPES.otn}>Old to new</option>
+        <option value={DATE_SORT_TYPES.nto}>New to old</option>
+      </select>
       <select
         name="select1"
         value={queryType}

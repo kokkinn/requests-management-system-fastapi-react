@@ -1,1 +1,0 @@
-Hello {phn} {phs}. This is a default message.

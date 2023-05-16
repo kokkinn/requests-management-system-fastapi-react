@@ -8,6 +8,7 @@ export function Request({
   name,
   surname,
   question,
+  date,
   resolved,
   setDialogContent,
   updateGridState,
@@ -16,46 +17,51 @@ export function Request({
   const { token } = useContext(AuthContext);
   return (
     <div className="request">
-
       <ul>
         <li key={id}>{id}</li>
         <li>{email}</li>
         <li>{name}</li>
         <li>{surname}</li>
-        <li>{question}</li>
+        <li>{question ? question : "No question here"}</li>
+        <li>{date}</li>
       </ul>
-      {!resolved ? (
+      <div className="request-buttons-container">
+        {!resolved ? (
+          <button
+            onClick={() => {
+              document.querySelector("#request-resolve-modal").showModal();
+              setDialogContent({ id, question });
+            }}
+          >
+            Resolve
+          </button>
+        ) : null}
+
         <button
           onClick={() => {
-            document.querySelector("#request-resolve-modal").showModal();
-            setDialogContent({ id, question });
+            fetch(`${SERVER_URL}/delete-request/${id}`, {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }).then((response) => {
+              if (!response.ok) {
+                console.log("Something went wrong");
+              } else {
+                console.log("Deleted");
+                updateGridState(
+                  gridState.filter((request) => request.id !== id)
+                );
+                response.json().then((json) => {
+                  console.log(json);
+                });
+              }
+            });
           }}
         >
-          Resolve
+          Delete
         </button>
-      ) : null}
-      <button
-        onClick={() => {
-          fetch(`${SERVER_URL}/delete-request/${id}`, {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }).then((response) => {
-            if (!response.ok) {
-              console.log("Something went wrong");
-            } else {
-              console.log("Deleted");
-              updateGridState(gridState.filter((request) => request.id !== id));
-              response.json().then((json) => {
-                console.log(json);
-              });
-            }
-          });
-        }}
-      >
-        Delete
-      </button>
+      </div>
     </div>
   );
 }

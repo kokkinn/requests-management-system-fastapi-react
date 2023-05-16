@@ -12,7 +12,7 @@ load_dotenv('.env')
 load_dotenv('.envdb')
 
 print(getenv("POSTGRES_USER"))
-DATABASE_URL = f'postgresql://{getenv("POSTGRES_USER")}:{getenv("POSTGRES_PASSWORD")}@192.168.0.57:5555/emails_db'
+DATABASE_URL = f'postgresql://{getenv("POSTGRES_USER")}:{getenv("POSTGRES_PASSWORD")}@0.0.0.0:5555/emails_db'
 
 
 # DATABASE_URL = f'postgresql://{getenv("POSTGRES_USER")}:{getenv("POSTGRES_PASSWORD")}@database_container:5432/emails_db'

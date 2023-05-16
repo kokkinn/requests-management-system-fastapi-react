@@ -9,7 +9,6 @@ export function RequestsGrid({
     <>
       {requests.length > 0 ? (
         <div id="requests-grid">
-          {/* //TODO how to pass all props as object and ** unpack them as  in Python */}
           {requests.map((request) => (
             <Request
               key={request.id}
@@ -19,6 +18,7 @@ export function RequestsGrid({
               name={request.name}
               surname={request.surname}
               resolved={request.resolved}
+              date={request.created_date}
               setDialogContent={setDialogContent}
               gridState={gridState}
               updateGridState={updateGridState}

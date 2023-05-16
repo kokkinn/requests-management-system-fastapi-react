@@ -32,5 +32,8 @@ def env_filling():
         env_file_content = f"POSTGRES_USER={user}\nPOSTGRES_PASSWORD={pwd}\n"
         env_database.write(env_file_content)
 
+    print('Data was submitted successfully. /server/src/.env and /database/.env files are now ready to be used.')
+
 
 env_filling()
+

@@ -1,13 +1,13 @@
+import datetime
 from typing import Optional
-
 from pydantic import BaseModel, Field
 
 
 class EmailRequest(BaseModel):
     name: str = Field(..., min_length=1)
-    surname: Optional[str] = Field(min_length=1)
+    surname: str = Field(min_length=1)
     email: str = Field(..., min_length=3)
-    question: str = Field(..., min_length=1)
+    question: Optional[str]
 
     class Config:
         orm_mode = True
@@ -16,6 +16,7 @@ class EmailRequest(BaseModel):
 class EmailRequestShow(EmailRequest):
     id: str
     resolved: bool
+    created_date: datetime.datetime
 
 
 class DoResponseBody(BaseModel):

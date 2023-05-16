@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 from typing import Optional
 
 from fastapi import FastAPI, Depends, status, HTTPException
@@ -51,11 +52,10 @@ async def get_token(form_data: schemas.Oath2LoginForm, delayq=Depends(delay), db
 
 
 @app.get("/get-requests", response_model=dict[str, list[schemas.EmailRequestShow]])
-def get_requests(resolved: Optional[bool] = None, limit: Optional[int] = None,
+def get_requests(date_sort: Optional[str], resolved: Optional[bool] = None, limit: Optional[int] = None,
                  db_session: Session = Depends(get_db), user=Depends(get_current_user),
                  delayy=Depends(delay)):  # TODO file with constants
-    print(f"\n{resolved}\n")
-    return {"data": read_requests(db_session, resolved, limit)}
+    return {"data": read_requests(db_session, resolved, limit, date_sort)}
 
 
 @app.post("/resolve-request")
@@ -68,7 +68,7 @@ def resolve_request(resolve_body: schemas.DoResponseBody, db_session: Session = 
 
 
 @app.get("/auth-test", status_code=status.HTTP_200_OK)
-def auth_test(user=Depends(get_current_user)):
+def auth_test(user=Depends(get_current_user), delayy=Depends(delay)):
     return user
 
 

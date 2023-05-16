@@ -1,5 +1,6 @@
-import { createContext, useEffect, useState } from "react";
-import {SERVER_URL} from "../constants";
+import { createContext, useContext, useEffect, useState } from "react";
+import { SERVER_URL } from "../constants";
+import { LoaderContext } from "./loaderContext";
 
 export const AuthContext = createContext({});
 
@@ -20,11 +21,7 @@ export const AuthContextProvider = (props) => {
           },
         };
 
-        const response = await fetch(
-          `${SERVER_URL}/auth-test`,
-          requestOptions
-        );
-
+        const response = await fetch(`${SERVER_URL}/auth-test`, requestOptions);
         if (!response.ok) {
           setUserIsLogged(false);
           setToken(null);

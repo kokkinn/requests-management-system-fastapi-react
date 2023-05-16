@@ -1,5 +1,7 @@
+import datetime
+
 from .database import base_class_sqlalchemy
-from sqlalchemy import Column, String, Integer, Boolean
+from sqlalchemy import Column, String, Integer, Boolean, DateTime
 
 
 class EmailRequest(base_class_sqlalchemy):
@@ -11,6 +13,7 @@ class EmailRequest(base_class_sqlalchemy):
     email = Column(String)
     question = Column(String)
     resolved = Column(Boolean)
+    created_date = Column(DateTime, default=datetime.datetime.utcnow())
 
 
 class User(base_class_sqlalchemy):
