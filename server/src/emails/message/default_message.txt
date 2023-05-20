@@ -1,4 +1,4 @@
 From: Sample From
 Subject: Sample Subject
 Hello {phn} {phs},
-This is a sample message!
+This is a auto-response sample message!

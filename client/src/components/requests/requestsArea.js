@@ -80,8 +80,7 @@ export function RequestsArea() {
             />
           ) : (
             <>
-              <h1 className="no-requests">No requests yet :(</h1>
-              <Link className="sample-form-offer" to="/sample-form">You can try out the sample form here</Link>
+              <h1 className="no-requests">No requests for this query.</h1>
             </>
           )}
         </>

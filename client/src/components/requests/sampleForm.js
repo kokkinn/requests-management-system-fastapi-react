@@ -1,8 +1,11 @@
 import { SERVER_URL } from "../../constants";
-import { useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { LoaderContext } from "../../contexts/loaderContext";
 
 export function SampleForm() {
+  const { loaderVisible, loaderInVisible } = useContext(LoaderContext);
   const [status, setStatus] = useState(null);
+  const loading = useRef(false);
   return (
     <div className="sample-form-wrapper">
       <form
@@ -10,6 +13,8 @@ export function SampleForm() {
         id="form-submit-request"
         onSubmit={(ev) => {
           ev.preventDefault();
+          setStatus(" ")
+          loaderVisible()
           fetch(`${SERVER_URL}/submit-request`, {
             method: "POST",
             body: JSON.stringify({
@@ -23,6 +28,7 @@ export function SampleForm() {
               "Content-type": "application/json",
             },
           }).then((response) => {
+              loaderInVisible()
             if (response.ok) {
               response.json().then((json) => {
                 setStatus("A request was submitted successfully");
@@ -41,7 +47,7 @@ export function SampleForm() {
         <input type="text" placeholder="surname" name="surname" />
         <input type="text" placeholder="question" name="question" />
         <input type="text" placeholder="email" name="email" />
-        <input id="srf-submit" type="submit" />
+        <input id="srf-submit" type="submit" value="Submit request" />
       </form>
       <div className="srf-error-msg">{status ? status : " "}</div>
     </div>

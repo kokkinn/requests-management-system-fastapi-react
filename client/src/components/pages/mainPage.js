@@ -1,6 +1,6 @@
-import { RequestsArea } from "./requests/requestsArea";
+import { RequestsArea } from "../requests/requestsArea";
 import { useContext } from "react";
-import { AuthContext } from "../contexts/authContext";
+import { AuthContext } from "../../contexts/authContext";
 import { Link } from "react-router-dom";
 
 export function MainPage() {

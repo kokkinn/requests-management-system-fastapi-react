@@ -117,8 +117,12 @@ nav {
 .nav-button:hover {
   text-decoration: underline;
 }
-nav button,
-a {
+nav button
+ {
   color: var(--secondary-dark);
   font-size: 1.5rem;
+}
+
+a{
+  color: var(--secondary-dark);
 }

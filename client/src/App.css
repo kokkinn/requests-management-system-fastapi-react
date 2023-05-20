@@ -23,7 +23,7 @@ body {
   width: 2rem;
   height: 2rem;
   border: 0.5rem solid black;
-  border-bottom-color:  white;
+  border-bottom-color: white;
   border-radius: 50%;
   animation: rotation 1s linear infinite;
   opacity: 0;
@@ -34,7 +34,6 @@ body {
   opacity: 1 !important;
 }
 
-
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -43,8 +42,6 @@ body {
     transform: rotate(360deg);
   }
 }
-
-
 
 .please-login {
   font-size: 2.5rem;
@@ -55,4 +52,28 @@ body {
 
 .please-login:hover {
   text-decoration: underline;
+}
+
+.sources-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.sources-page ul {
+  list-style: none;
+}
+
+.sources-page ul li {
+  margin: 3rem;
+}
+
+.sources-page ul li a:hover{
+  text-shadow: var(--primary-dark) 0 0 2rem;
+}
+.sources-page ul li a {
+  transition: text-shadow 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 3rem;
 }

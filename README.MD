@@ -56,6 +56,8 @@ Using a sample form, we send some fake requests to the server. Within our sample
 auto-response message and then an answer.
 
 ## GIF
-![Alt Text](readme/ezgif-3-98b50a327c.gif)
-# Youtube
-[![Watch the video](https://img.youtube.com/vi/5wXHUjMBzvM/maxresdefault.jpg)](https://www.youtube.com/watch?v=5wXHUjMBzvM)
+![Alt Text](readme/preview.gif)
+
+
+
+

@@ -37,6 +37,7 @@ export function NavBar() {
 
   const navButtons = (
     <div className="nav-buttons">
+      <Link className="nav-button" to="/sources">Sources</Link>
       <a
         className="nav-button"
         onClick={() => {

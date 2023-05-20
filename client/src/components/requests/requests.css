@@ -148,6 +148,7 @@ color: var(--secondary-light);
 }
 
 .no-requests {
+  font-weight: normal;
   font-size: 2.5rem;
   text-align: center;
 }
@@ -163,9 +164,18 @@ color: var(--secondary-light);
 }
 
 .sample-form input {
-  width: 50rem;
+  width: 40rem;
   font-size: 2rem;
   height: 5rem;
+  box-sizing: border-box;
+  border: 1px var(--primary-light) solid;
+  transition: border 0.1s ease-in-out;
+  outline: none;
+}
+
+.sample-form input:hover {
+  border: 1px var(--primary-dark) solid;
+  ;
 }
 
 .sample-form-wrapper {
@@ -177,6 +187,10 @@ color: var(--secondary-light);
   gap: 1rem;
 }
 #srf-submit {
+  border: none
+}
+
+#srf-submit:hover{
   cursor: pointer;
 }
 
