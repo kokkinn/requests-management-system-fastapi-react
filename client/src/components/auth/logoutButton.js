@@ -9,7 +9,6 @@ export function LogoutButton() {
         setToken(null);
         // setUserIsLogged(false);
         localStorage.removeItem("Authorization");
-        console.log("User have been logged out");
       }}
       type="submit"
       id="test-auth"

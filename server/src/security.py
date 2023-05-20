@@ -10,13 +10,15 @@ from sqlalchemy.orm import Session
 from .crud import get_user
 from .database import get_db
 from .models import User
+from os import getenv
+from dotenv import load_dotenv
 
+load_dotenv()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-# TODO create env
-SECRET_KEY = 'secret'
-ALGORITHM = "HS256"
+SECRET_KEY = getenv('SECRET_KEY')
+ALGORITHM = getenv('ALGORITHM')
 
 
 def verify_password(plain_password, hashed_password):

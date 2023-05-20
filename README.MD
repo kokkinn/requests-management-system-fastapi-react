@@ -49,3 +49,13 @@ stored into `rootdir/setup/sample_client_form.html` .
 ## Details
 
 A database is stored inside the docker environment on the volume called `pg_data_1`
+
+# Preview 
+
+Using a sample form, we send some fake requests to the server. Within our sample email account, we would be able to see 
+auto-response message and then an answer.
+
+## GIF
+![Alt Text](readme/ezgif-3-98b50a327c.gif)
+# Youtube
+[![Watch the video](https://img.youtube.com/vi/5wXHUjMBzvM/maxresdefault.jpg)](https://www.youtube.com/watch?v=5wXHUjMBzvM)

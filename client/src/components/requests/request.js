@@ -18,12 +18,26 @@ export function Request({
   return (
     <div className="request">
       <ul>
-        <li key={id}>{id}</li>
-        <li>{email}</li>
-        <li>{name}</li>
-        <li>{surname}</li>
-        <li>{question ? question : "No question here"}</li>
-        <li>{date}</li>
+        <li>
+          <span className="request-field-label">Email: </span>
+          {email}
+        </li>
+        <li>
+          <span className="request-field-label">Name: </span>
+          {name}
+        </li>
+        <li>
+          <span className="request-field-label">Surname: </span>
+          {surname}
+        </li>
+        <li>
+          <span className="request-field-label">Question: </span>
+          {question ? question : "No question here"}
+        </li>
+        <li>
+          <span className="request-field-label">Date: </span>{" "}
+          {date.slice(0, 10) + " " + date.slice(12, 19)}
+        </li>
       </ul>
       <div className="request-buttons-container">
         {!resolved ? (
@@ -46,14 +60,12 @@ export function Request({
               },
             }).then((response) => {
               if (!response.ok) {
-                console.log("Something went wrong");
               } else {
                 console.log("Deleted");
                 updateGridState(
                   gridState.filter((request) => request.id !== id)
                 );
                 response.json().then((json) => {
-                  console.log(json);
                 });
               }
             });

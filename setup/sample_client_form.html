@@ -1,11 +1,5 @@
 <html lang="en">
-  <form id="form-submit-request">
-    <input type="text" placeholder="name" name="name" />
-    <input type="text" placeholder="surname" name="surname" />
-    <input type="text" placeholder="question" name="question" />
-    <input type="text" placeholder="email" name="email" />
-    <input type="submit" />
-  </form>
+
 
   <script>
     document
@@ -27,7 +21,6 @@
         }).then((response) => {
           if (response.ok) {
             response.json().then((json) => {
-              console.log(json);
             });
           } else {
             response.json().then((json) => {

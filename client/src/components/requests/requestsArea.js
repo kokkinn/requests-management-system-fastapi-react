@@ -7,6 +7,7 @@ import { AuthContext } from "../../contexts/authContext";
 import { DATE_SORT_TYPES, SERVER_URL } from "../../constants";
 import { LoaderContext } from "../../contexts/loaderContext";
 import { RefreshContext } from "../../contexts/refreshContext";
+import {Link} from "react-router-dom";
 
 export function RequestsArea() {
   const { isLoading, setIsLoading, loaderVisible, loaderInVisible } =
@@ -36,7 +37,6 @@ export function RequestsArea() {
       loaderInVisible();
       loadingRef.current = false;
       if (!response.ok) {
-        console.log("Unauthorized");
       } else {
         response.json().then((json) => {
           let req_temp = [];
@@ -44,20 +44,18 @@ export function RequestsArea() {
             req_temp.push(json.data[i]);
           }
           setRequests(req_temp);
-          // TODO maybe reverse
         });
       }
     });
-    // const interval = setInterval(() => {
-    //   setRefresh(!refresh);
-    // }, MINUTE_MS);
-    //
-    // return () => {
-    //   clearInterval(interval);
-    // };
-  }, [queryType, limitPar, refresh, dateSort]);
+    const MINUTE_MS = 60000;
+    const interval = setInterval(() => {
+      setRefresh(!refresh);
+    }, MINUTE_MS);
 
-  const MINUTE_MS = 5000;
+    return () => {
+      clearInterval(interval);
+    };
+  }, [queryType, limitPar, refresh, dateSort]);
 
   return (
     <div id="requests-area">
@@ -71,14 +69,24 @@ export function RequestsArea() {
         dateSort={dateSort}
         setDateSort={setDateSort}
       />
-      {!loadingRef.current || requests.length > 0 ? (
-        <RequestsGrid
-          requests={requests}
-          setDialogContent={setDialogContent}
-          gridState={requests}
-          updateGridState={setRequests}
-        />
+      {!loadingRef.current ? (
+        <>
+          {requests.length > 0 ? (
+            <RequestsGrid
+              requests={requests}
+              setDialogContent={setDialogContent}
+              gridState={requests}
+              updateGridState={setRequests}
+            />
+          ) : (
+            <>
+              <h1 className="no-requests">No requests yet :(</h1>
+              <Link className="sample-form-offer" to="/sample-form">You can try out the sample form here</Link>
+            </>
+          )}
+        </>
       ) : null}
+
       <ResolveDialog
         id={dialogContent.id}
         question={dialogContent.question}

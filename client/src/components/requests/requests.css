@@ -4,7 +4,6 @@
 }
 
 #request-resolve-modal {
-  /*display: flex;*/
   background-color: var(--primary-light);
   border: 4px solid var(--neutral);
   border-radius: 0.5rem;
@@ -119,12 +118,12 @@
   justify-content: space-between;
   flex-direction: column;
   background-color: var(--primary-light);
-  /*width: 100%;*/
-  /*border: black solid 1px;*/
   font-size: 1.5rem;
   transition: transform 0.3s;
 }
-
+.request-field-label{
+color: var(--secondary-light);
+}
 .request:hover {
   transform: scale(1.04);
 }
@@ -146,4 +145,48 @@
   padding: 1rem;
   list-style: none;
   /*word-break: break-word;*/
+}
+
+.no-requests {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.sample-form-offer {
+  text-align: center;
+}
+.sample-form {
+  display: flex;
+  flex-direction: column;
+  /*justify-content: center;*/
+  white-space: pre-wrap;
+}
+
+.sample-form input {
+  width: 50rem;
+  font-size: 2rem;
+  height: 5rem;
+}
+
+.sample-form-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+#srf-submit {
+  cursor: pointer;
+}
+
+#srf-submit:hover {
+  background-color: var(--primary-light);
+}
+
+.srf-error-msg {
+  color: #b63a2f;
+  font-size: 1.5rem;
+  transition: opacity 0.3s;
+  white-space: pre-wrap;
 }

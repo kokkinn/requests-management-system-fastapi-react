@@ -44,7 +44,6 @@ export function LoginForm() {
               localStorage.setItem("Authorization", json.access_token);
               setToken(json.access_token);
               setUserIsLogged(true);
-              console.log(`Logged in with token ${json.access_token}`);
               navigate("/");
             });
           } else {

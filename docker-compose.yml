@@ -37,6 +37,4 @@ services:
 
 volumes:
   db_volume:
-    name: pg_volume_1
-#    external: true
-# TODO change name for production
+    name: rms_db_volume

@@ -24,7 +24,6 @@ body {
   height: 2rem;
   border: 0.5rem solid black;
   border-bottom-color:  white;
-  /*TODO what colour */
   border-radius: 50%;
   animation: rotation 1s linear infinite;
   opacity: 0;

@@ -1,3 +1,4 @@
-EMAIL_ACCOUNT=someemail@somesmtp.com
-EMAIL_APP_PASSWORD=supersecretapppassword1337
-SMTP_SERVER=somesmtp.name.com
+EMAIL_ACCOUNT=someemail@email.com
+EMAIL_APP_PASSWORD=superpa$$
+SMTP_SERVER=email.smtp.com
+SECRET_KEY=be890688b6c4bd7d0a88e99e72d129d46e6a0963302d1bcbf83fd6313e50c33c

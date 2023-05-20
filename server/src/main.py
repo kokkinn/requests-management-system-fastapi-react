@@ -55,7 +55,8 @@ async def get_token(form_data: schemas.Oath2LoginForm, delayq=Depends(delay), db
 def get_requests(date_sort: Optional[str], resolved: Optional[bool] = None, limit: Optional[int] = None,
                  db_session: Session = Depends(get_db), user=Depends(get_current_user),
                  delayy=Depends(delay)):  # TODO file with constants
-    return {"data": read_requests(db_session, resolved, limit, date_sort)}
+    res = read_requests(db_session, resolved, limit, date_sort)
+    return {"data": res}
 
 
 @app.post("/resolve-request")

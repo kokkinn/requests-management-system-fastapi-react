@@ -39,7 +39,6 @@ def send_email(message, recipient_email: str):
     with smtplib.SMTP_SSL(SMTP_SERVER, SSL_PORT, context=context) as server:
         server.login(ACCOUNT, PASSWORD)
         try:
-
             server.sendmail(ACCOUNT, recipient_email, message)
         except smtplib.SMTPRecipientsRefused:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad email provided")

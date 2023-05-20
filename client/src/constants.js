@@ -1,6 +1,6 @@
 // const SERVER_URL = "http://localhost:8000";
-const SERVER_URL = "http://192.168.0.162:8000";
-// const SERVER_URL = 'http://0.0.0.0/api'
+// const SERVER_URL = "http://192.168.0.57:8000";
+const SERVER_URL = 'http://0.0.0.0/api'
 const RESOLVE_DIALOG_TEXT_AREA_SAMPLE =
   "From: ...\n" + "Subject: ...\n" + "Message: ...";
 

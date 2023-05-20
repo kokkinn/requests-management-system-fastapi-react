@@ -1,4 +1,5 @@
 from os import listdir, path
+import secrets
 
 STATUSES = {'yes': ['yes', 'true', 'y', '1'], 'no': ['no', 'false', 'n', '0']}
 ENV_SE_PATH = path.dirname(__file__) + '/../server/'
@@ -19,14 +20,15 @@ def env_filling():
                 print('Incorrect option')
                 continue
 
-    with open(path.dirname(__file__) + '/../server/.env2', 'w') as env_server:
+    with open(path.dirname(__file__) + f'/../server/{ENV_NAME}', 'w') as env_server:
         email = input('Your email account name: ')
         pwd = input('Your email account password: ')
         smtp = input('Your email smtp server: ')
-        env_file_content = f"EMAIL_ACCOUNT={email}\nEMAIL_APP_PASSWORD={pwd}\nSMTP_SERVER={smtp}\n"
+        secret_key = secrets.token_hex(32)
+        env_file_content = f"EMAIL_ACCOUNT={email}\nEMAIL_APP_PASSWORD={pwd}\nSMTP_SERVER={smtp}\nSECRET_KEY={secret_key}"
         env_server.write(env_file_content)
 
-    with open(path.dirname(__file__) + '/../database/.env2', 'w') as env_database:
+    with open(path.dirname(__file__) + f'/../database/{ENV_NAME}', 'w') as env_database:
         user = input('Your database username: ')
         pwd = input('Your database password: ')
         env_file_content = f"POSTGRES_USER={user}\nPOSTGRES_PASSWORD={pwd}\n"
@@ -36,4 +38,3 @@ def env_filling():
 
 
 env_filling()
-
