@@ -8,5 +8,3 @@ RUN npm run build
 FROM nginx
 COPY --from=node_image /app/build/ /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
-
-

@@ -4,7 +4,7 @@ import secrets
 STATUSES = {'yes': ['yes', 'true', 'y', '1'], 'no': ['no', 'false', 'n', '0']}
 ENV_SE_PATH = path.dirname(__file__) + '/../server/'
 ENV_DB_PATH = path.dirname(__file__) + '/../database/'
-ENV_NAME = '.env2'
+ENV_NAME = '.env'
 
 
 # TODO try jinja2
