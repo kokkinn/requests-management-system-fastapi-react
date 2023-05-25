@@ -2,9 +2,9 @@
 
 ## About
 
-A tool for managing requests got from html. The request consists of name, surname, email 
-and optional question. The admin is able either to monitor sent requests and reply manually or set up an auto response 
-in case of question absence (email). The app consists of an API (FastAPI) and admin panel (React). Everything is stored on a Postgres database.
+This is a tool for managing user requests (questions from a form). The admin is able to monitor and filter delivered 
+questions, reply manually and set an auto-reply message. The request consists of name, surname, email and optional 
+question. The app uses FastApi, React, Docker. Everything is stored on a Postgres database.
 
 ## Getting started
 
@@ -31,7 +31,7 @@ For the default message, you customize a file `rootdir/server/src/message/defaul
 
 To start the containers stack, be sure to be on the `docker-compose.yml` file level (root directory), then execute
 `docker-compose up --build` to start all the containers. After the process is done, the port 80 will be exposed to your
-machine, where frontend is located.
+machine, where frontend is located. The setting up could take up to 10 minutes. 
 
 ### Register admin
 
@@ -48,7 +48,7 @@ stored into `rootdir/setup/sample_client_form.html` .
 
 ## Details
 
-A database is stored inside the docker environment on the volume called `pg_data_1`
+A database is stored inside the docker environment on the volume called `rms_db_volume`
 
 # Preview 
 
